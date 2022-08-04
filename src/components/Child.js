@@ -1,28 +1,28 @@
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 const todos = [
   {
-    id:1,
-    value: '빨래 돌리기'
+    id: 1,
+    value: "빨래 돌리기",
   },
   {
-    id:2,
-    value: '설거지 쌓아놓지 말기'
+    id: 2,
+    value: "설거지 쌓아놓지 말기",
   },
   {
-    id:3,
-    value: '냉장고 청소'
+    id: 3,
+    value: "냉장고 청소",
   },
   {
-    id:4,
-    value: '화장실 청소'
+    id: 4,
+    value: "화장실 청소",
   },
   {
-    id:5,
-    value: '눕기'
-  },  
-]
+    id: 5,
+    value: "눕기",
+  },
+];
 
 // const url = 'https://api.notion.com/v1/databases/abcd3f7fe08e408a81f3696f573d42a6/query';
 // axios.get(url, {
@@ -45,30 +45,32 @@ const todos = [
 //   console.log(response);
 // })();
 
-function Child(){
+function Child() {
   const [items, setItems] = useState(todos);
 
   const handleDoneClick = (todo) => {
-    setItems(items => items.filter((item) => item !== todo))
-  }
+    setItems((items) => items.filter((item) => item !== todo));
+  };
 
   const handleRestoreClick = () => {
-    setItems(items => [...items, todos.find((item) => !items.includes(item))])
-  }
+    setItems((items) => [
+      ...items,
+      todos.find((item) => !items.includes(item)),
+    ]);
+  };
 
   return (
     <>
       <ul>
-        {items.map((todo)=>(
+        {items.map((todo) => (
           <li key={todo.id}>
             <span>{todo.value}</span>
-            <button onClick={()=>handleDoneClick(todo)}>삭제</button>
-          </li>  
+            <button onClick={() => handleDoneClick(todo)}>삭제</button>
+          </li>
         ))}
       </ul>
       <button onClick={handleRestoreClick}>재구성</button>
     </>
-  )
-
+  );
 }
 export default Child;
