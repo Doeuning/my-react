@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 function Movie(props) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const apiKey = "c79521c72b6690785c671f45832e339b";
   const userId = "doeuning";
   const sessionId = "5cb7458b6a9c2bc68202d97a55537df2f004fce6";
@@ -13,13 +13,13 @@ function Movie(props) {
     );
   }
   function trackingBottom() {
-    if (isBottom(document.querySelector(".movie-list"))) {
-      setPage((num) => (num += num));
+    if (isBottom(document.getElementById("App"))) {
+      setPage((num) => (num = num + 1));
       getData();
+      document.removeEventListener("scroll", trackingBottom);
     }
   }
   function getData() {
-    document.removeEventListener("scroll", trackingBottom);
     fetch(
       `https://api.themoviedb.org/3//account/${userId}/rated/tv?api_key=${apiKey}&session_id=${sessionId}&page=${page}`
     )
@@ -27,13 +27,13 @@ function Movie(props) {
         return res.json();
       })
       .then(function (datas) {
-        setData(datas.results);
+        setData(data.concat(datas.results));
+        console.log(datas);
       })
       .catch((error) => {
         console.log(error.message);
         alert(error.message);
       });
-    window.addEventListener("scroll", trackingBottom);
   }
   useEffect(() => {
     window.addEventListener("scroll", trackingBottom);
